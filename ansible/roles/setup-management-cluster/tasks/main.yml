@@ -29,8 +29,8 @@
 
 - name: Install k0s as a service
   become: true
-  ansible.builtin.shell: k0s install controller --enable-worker --no-taints
+  ansible.builtin.command: k0s install controller --enable-worker --no-taints
 
 - name: Start k0s as a service
   become: true
-  ansible.builtin.shell: k0s start
+  ansible.builtin.command: k0s start
