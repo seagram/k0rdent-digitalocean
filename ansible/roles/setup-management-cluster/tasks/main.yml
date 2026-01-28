@@ -28,5 +28,9 @@
         creates: /usr/local/bin/k0s
 
 - name: Install k0s as a service
+  become: true
+  ansible.builtin.shell: k0s install controller --enable-worker --no-taints
 
 - name: Start k0s as a service
+  become: true
+  ansible.builtin.shell: k0s start
