@@ -1,0 +1,19 @@
+# docs: https://docs.k0rdent.io/latest/quickstarts/#where-the-quickstart-leads
+
+- name: Set up SSH key access
+
+- name: Configure passwordless sudo
+
+- name: Restrict inbound traffic to SSH (port 22)
+
+- name: Allow all outbound traffic
+
+- name: Refresh package index (apt update)
+
+- name: Upgrade installed packages (apt upgrade)
+
+- name: Download k0s distribution
+
+- name: Install k0s as a service
+
+- name: Start k0s as a service
