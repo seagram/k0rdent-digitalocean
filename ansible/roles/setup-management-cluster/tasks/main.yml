@@ -8,11 +8,24 @@
 
 - name: Allow all outbound traffic
 
-- name: Refresh package index (apt update)
-
-- name: Upgrade installed packages (apt upgrade)
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: yes
 
 - name: Download k0s distribution
+  become: true
+  block:
+    - name: Download k0s install script
+      get_url:
+        url: https://get.k0s.sh
+        dest: /tmp/k0s-install.sh
+        mode: '0775'
+    - name: Run k0s install script
+      shell: /tmp/k0s-install.sh
+      args:
+        creates: /usr/local/bin/k0s
 
 - name: Install k0s as a service
 
