@@ -1,0 +1,11 @@
+---
+- name: Disable power off on lid close
+  hosts: homelab-ssh
+  become: true
+  roles:
+    - disable_poweroff
+- name: Harden SSH security
+  hosts: homelab-ssh
+  become: true
+  roles:
+    - ssh_security
