@@ -4,11 +4,6 @@
   become: true
   roles:
     - disable_poweroff
-- name: Harden SSH security
-  hosts: ansible-ssh
-  become: true
-  roles:
-    - ssh_security
 - name: Install k0s
   hosts: ansible-ssh
   become: true
