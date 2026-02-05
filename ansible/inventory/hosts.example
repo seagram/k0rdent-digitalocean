@@ -1,2 +1,2 @@
 [all]
-user-ssh ansible_host=user@ip_address
+anisble-ssh ansible_host=ip_address ansible_user=user

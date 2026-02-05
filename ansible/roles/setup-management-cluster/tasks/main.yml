@@ -1,12 +1,53 @@
 # docs: https://docs.k0rdent.io/latest/quickstarts/#where-the-quickstart-leads
 
+- name: Ensure .ssh directory exists
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0700"
+    state: directory
+
 - name: Set up SSH key access
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+    state: file
 
 - name: Configure passwordless sudo
+  become: true
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ ansible_user }}"
+    line: "{{ ansible_user }} ALL=(ALL) NOPASSWD:ALL"
+    create: yes
+    validate: "visudo -cf %s"
+    mode: "0440"
 
 - name: Restrict inbound traffic to SSH (port 22)
+  become: true
+  block:
+    - name: Set UFW default deny incoming
+      community.general.ufw:
+        default: deny
+        direction: incoming
+    - name: Allow SSH through UFW
+      community.general.ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
 
 - name: Allow all outbound traffic
+  become: true
+  community.general.ufw:
+    default: allow
+    direction: outgoing
 
 - name: Update and upgrade apt packages
   become: true
@@ -21,7 +62,7 @@
       get_url:
         url: https://get.k0s.sh
         dest: /tmp/k0s-install.sh
-        mode: '0775'
+        mode: "0775"
     - name: Run k0s install script
       shell: /tmp/k0s-install.sh
       args:
